@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_exseption/auth_service/auth_sevice.dart';
+import 'package:firebase_auth_exseption/screens/anonymous_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,8 +19,27 @@ class HomeScreen extends StatelessWidget {
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("User Id :${userDetails!.uid} ")],
+                children: [
+                  Text(
+                    "User Id :\n${userDetails!.uid} ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
               ),
+            ),
+            SizedBox(height: 50),
+            ElevatedButton(
+              onPressed: () async {
+                await AuthSevice().logOutCurrentUser();
+
+                //navigate to anonymous screen
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => AnonymousScreen()),
+                );
+              },
+              child: Text("LOG OUT"),
             ),
           ],
         ),
