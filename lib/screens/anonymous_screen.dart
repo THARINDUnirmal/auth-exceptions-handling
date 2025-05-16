@@ -1,4 +1,4 @@
-import 'package:firebase_auth_exseption/auth/auth_sevice.dart';
+import 'package:firebase_auth_exseption/auth_service/auth_sevice.dart';
 import 'package:firebase_auth_exseption/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:firebase_auth_exseption/firebase_options.dart';
+import 'package:firebase_auth_exseption/firebase/firebase_options.dart';
 import 'package:firebase_auth_exseption/screens/anonymous_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
