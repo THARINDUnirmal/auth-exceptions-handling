@@ -4,6 +4,8 @@ import 'package:firebase_auth_exseption/exceptions/auth_exceptions.dart';
 class AuthSevice {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  //Anonymous Log In
+
   Future<void> logAsAnonymous() async {
     try {
       final UserCredential userAuth = await auth.signInAnonymously();
@@ -25,7 +27,7 @@ class AuthSevice {
 
   User? get getUserDetails => auth.currentUser;
 
-  //log out current user
+  //Log Out Current Anonymous User
   Future<void> logOutCurrentUser() async {
     try {
       await auth.signOut();
@@ -33,6 +35,21 @@ class AuthSevice {
       throw Exception(authExceptionget(error.code));
     } catch (error) {
       print(error.toString());
+    }
+  }
+
+  Future<void> logUsingEmail(String userEmail, String userPassword) async {
+    try {
+      await auth.createUserWithEmailAndPassword(
+        email: userEmail,
+        password: userPassword,
+      );
+    } on FirebaseAuthException catch (error) {
+      print('FirebaseAuthException: ${error.code}');
+      throw Exception(authExceptionget(error.code));
+    } catch (e) {
+      print('Unknown error: ${e.toString()}');
+      throw Exception('An unexpected error occurred.');
     }
   }
 }
