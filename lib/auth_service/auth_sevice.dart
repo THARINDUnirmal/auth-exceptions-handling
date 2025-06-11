@@ -38,7 +38,7 @@ class AuthSevice {
     }
   }
 
-  Future<void> logUsingEmail(String userEmail, String userPassword) async {
+  Future<void> registerUsingEmail(String userEmail, String userPassword) async {
     try {
       await auth.createUserWithEmailAndPassword(
         email: userEmail,
@@ -50,6 +50,23 @@ class AuthSevice {
     } catch (e) {
       print('Unknown error: ${e.toString()}');
       throw Exception('An unexpected error occurred.');
+    }
+  }
+
+  //log in with email
+  Future<void> loginUsingEmail({
+    required String userEmail,
+    required String userPassword,
+  }) async {
+    try {
+      await auth.signInWithEmailAndPassword(
+        email: userEmail,
+        password: userPassword,
+      );
+    } on FirebaseAuthException catch (error) {
+      throw Exception(authExceptionget(error.code));
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

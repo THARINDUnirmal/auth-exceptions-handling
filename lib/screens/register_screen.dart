@@ -1,5 +1,6 @@
 import 'package:firebase_auth_exseption/auth_service/auth_sevice.dart';
 import 'package:firebase_auth_exseption/screens/home_screen.dart';
+import 'package:firebase_auth_exseption/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -102,7 +103,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 20),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
                         child: Text(
                           "Alrady you have an account? Sing in",
                           textAlign: TextAlign.center,
@@ -122,11 +129,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             setState(() {
                               isLoading = true;
                             });
-                            String email = _emailContraller.text;
-                            String password = _passwordContraller.text;
 
                             try {
-                              await AuthSevice().logUsingEmail(email, password);
+                              await AuthSevice().registerUsingEmail(
+                                _emailContraller.text.trim(),
+                                _passwordContraller.text.trim(),
+                              );
 
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
