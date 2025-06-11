@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_exseption/exceptions/auth_exceptions.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthSevice {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSign = GoogleSignIn();
 
   //Anonymous Log In
 
@@ -63,6 +65,31 @@ class AuthSevice {
         email: userEmail,
         password: userPassword,
       );
+    } on FirebaseAuthException catch (error) {
+      throw Exception(authExceptionget(error.code));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //google sign methord
+  Future<void> signWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSign.signIn();
+
+      if (googleSignInAccount == null) {
+        return;
+      }
+      final GoogleSignInAuthentication accountAuth =
+          await googleSignInAccount.authentication;
+
+      final OAuthCredential authCrudentiol = GoogleAuthProvider.credential(
+        accessToken: accountAuth.accessToken,
+        idToken: accountAuth.idToken,
+      );
+
+      await auth.signInWithCredential(authCrudentiol);
     } on FirebaseAuthException catch (error) {
       throw Exception(authExceptionget(error.code));
     } catch (e) {
