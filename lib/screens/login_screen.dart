@@ -156,6 +156,70 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                     ),
+                    //====================================================
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightGreenAccent,
+                      ),
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+
+                        try {
+                          await AuthSevice().signWithGoogle();
+
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(seconds: 2),
+                                backgroundColor: Colors.lightGreenAccent,
+                                content: Text(
+                                  "Log in Sucseed!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(e.toString()),
+                                );
+                              },
+                            );
+                          }
+                        } finally {
+                          setState(() {
+                            isLoading = false;
+                          });
+                        }
+                      },
+                      child:
+                          isLoading
+                              ? CircularProgressIndicator(color: Colors.black)
+                              : Text(
+                                "Log in with GOOGLE",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                    ),
                   ],
                 ),
               ),
